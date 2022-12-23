@@ -1,89 +1,25 @@
-class ProductManager {
-    
-    constructor() {
-      this.products = [];
-    }
-    addProduct(title, description, price, thumbnail, code, stock) {
-        const product={
-            id: this.products.lenth +1,
-            title,
-            description,
-            price, 
-            thumbnail, 
-            code, 
-            stock,
+const productManager =require ("./class/ProductManager");
+const [espejo, manta, tapiz] = require ("./products");
 
-        }
-      if (title === undefined || description === undefined || price === undefined || thumbnail === undefined || code===undefined|| stock===undefined){
-        return console.log ("todos los campos son obligatorios");
+const products = new productManager ("./database/db.json");
 
-      }
+// Get all products
+// products.getProducts(); // []
 
-      let isInCart = this.products.find ((product) => product.code === code);
-      if (isInCart){
-        return console.log ("el producto ya existe");
+// Add product
+// products.addProduct(espejo); //         espejo
 
-      }else{
-        this.products.push (product);
+// Get all products. Now we have 1 product.
+// products.getProducts(); // [Espejo, manta, tapiz]
 
-      }
-    
-    }
+// Get product by id
+// products.getProductById(1); // espejo
 
-    getProducts() {
-        return this.products;
-    }
-    getProductById(id) {
-     let searchId = id;
-     let myproduct =null;
-     this.products.forEach ((product)=>{
-      if (product.id === searchId){
-        myproduct = product;
-      }
-     });
-     if (myproduct === null){
-      return console.log ("Not Found");
+// Update product by id
+// products.updateProduct(2, { stock: 40 }); // Updated
 
-     }else{
-      return myproduct;
+// Delete product by id
+// products.deleteProductById(2); // Deleted
 
-     }
-    }
-  };
-
-
-  const productManager = new ProductManager();
-  productManager.addProduct(
-    "espejo",
-    "espejo redondo de yute 60cm",
-    3500,
-    "img.espejoyute", 
-    "esp1",
-    5,
-  );
-
-  productManager.addProduct(
-    "manta",
-    "manta pie de cama de tussor y borlas 50x300  cm",
-    5500,
-    "img.manta", 
-    "manta1",
-    5,
-  );
-
-  productManager.addProduct(
-    "tapiz",
-    "tapiz en macrame crudo 30x50cm",
-    4500,
-    "img.tapiz", 
-    "tapiz1",
-    5,
-  );
-
-const productoDeco = productManager.getProducts();
-console.log (productoDeco);
-
-
-productManager.getProductById();
-
-
+// Delete all products
+// products.deleteAll(); // Deleted

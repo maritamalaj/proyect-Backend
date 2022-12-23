@@ -1,0 +1,29 @@
+const Products = [
+    {
+title: "espejo",
+description: "espejo redondo de yute 60cm",
+price: 3500,
+thumbnail: "img.espejoyute", 
+code: "esp1",
+stock: 5,
+},
+{
+title: "manta",
+description:"manta pie de cama de tussor y borlas 50x300  cm",
+price: 5500,
+thumbnail: "img.manta", 
+code:"manta1",
+stock: 5,
+},
+
+{
+title:"tapiz",
+description: " tapiz en macrame crudo 30x50cm",
+price: 4500,
+thumbnail: "img.tapiz", 
+code:"tapiz1",
+stock: 5,
+},
+];
+
+module.exports = Products;
