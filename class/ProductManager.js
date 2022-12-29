@@ -1,5 +1,5 @@
+const fs = require('fs');
 
-const fs = require ('fs');
 
 
 class ProductManager {
@@ -42,7 +42,7 @@ class ProductManager {
 
 
     async getProducts() {
-        const fileData = await this.#readFile();
+      const fileData = await this.#readFile();
 
         try{
           if (fileData.length === 0 ) throw new Error (`Error: not found product`);
@@ -50,7 +50,13 @@ class ProductManager {
         }catch (error){
           console.log (`Error:product not found`);
         }
+
+        //consulta a archivo products (desf 3)
+       return JSON.parse(fs.readFileSync(this.path,"utf-8"));
+
       }
+
+     
     // method (publ): get product by id
 
     async getProductById(id) {
@@ -94,6 +100,8 @@ async deleteAll(){
   await fs.promises.writeFile(this.path, JSON.stringify ([]), 'utf-8');
 }
 }  
-module.exports = ProductManager;    
+
+
+module.exports = ProductManager;
 
 

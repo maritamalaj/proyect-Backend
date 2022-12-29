@@ -1,29 +1,111 @@
 const Products = [
     {
-title: "espejo",
-description: "espejo redondo de yute 60cm",
-price: 3500,
-thumbnail: "img.espejoyute", 
-code: "esp1",
-stock: 5,
-},
-{
-title: "manta",
-description:"manta pie de cama de tussor y borlas 50x300  cm",
-price: 5500,
-thumbnail: "img.manta", 
-code:"manta1",
-stock: 5,
-},
+    "id": "1",
+    "title": "espejo",
+    "description": "espejo redondo de yute 60cm",
+    "price": 3500,
+    "thumbnail": "img.espejoyute", 
+    "code": "esp1",
+    "stock": 110,
+    },
+    {
+    "id: "2",
+    "title": "manta",
+    "description":"manta pie de cama de tussor y borlas 50x300  cm",
+    "price": 5500,
+    "thumbnail": "img.manta", 
+    "code": "manta1",
+    "stock": 15,
+    },
 
-{
-title:"tapiz",
-description: " tapiz en macrame crudo 30x50cm",
-price: 4500,
-thumbnail: "img.tapiz", 
-code:"tapiz1",
-stock: 5,
-},
-];
+    {
+    "id": "3",
+    "title": "tapiz",
+    "description": " tapiz en macrame crudo 30x50cm",
+    "price": 4500,
+    "thumbnail": "img.tapiz", 
+    "code": "tapiz1",
+    "stock": 30,
+   },
+   
+   {
+    "id":"4",
+    "title": "Espejo Mariam",
+    "description": "Espejo tejido en Yute 40cm",
+    "price": 2900,
+    "thumbnail": "img.esp2", 
+    "code": "esp2",
+    "stock": 10,
+    
+    },
 
-module.exports = Products;
+    {
+    "id":"5",
+    "title": "Espejo Amalia",
+    "description": "Espejo tejido en macramé natural 40cm",
+    "price": 2900,
+    "thumbnail": "/images/espejomacrame",
+    "code": "Esp3",
+    "stock": 5,
+    
+    },
+
+    {
+    "id":"6",
+    "title": "Pie de cama",
+    "description": " Pie de cama en tusro estampado y borlas en hilo de algodón 100x50 cm",
+    "price": 5000,
+    "thumbnail": "/images/piecama.jpeg",
+    "code": "pie1",
+    "stock": 5,
+    
+    },
+
+    {
+    "id":"7",
+    "title": "Almohadas Boho",
+    "price": 3000,
+    "description": "Almohadon deco tela de tusro y detalles en lentejuelas 40x20 cm",
+    "code": "Habitación",
+    "thumbnail": "/images/almohadas",
+    "stock": 5,
+    
+    },
+
+    {
+    id:"8",
+    title: "Frasco Marie",
+    price:1900,
+    description: "Descripción frasco de vidriio, tejido en macrame 30x10 cm",
+    code: "Deco1",
+    thumbnail: "/images/frascomacrame",
+    stock: 5,
+    
+    },
+
+    {
+    "id":"9",
+    "title": "Colgante Alice",
+    "price":3000,
+    "description": "colgante  de macramé 15x30 cm",
+    "code": "Deco2",
+    "thumbnail": "/images/colgantemacrame",
+    "stock": 5,
+  ,
+    },
+
+    {
+    "id":"10",
+    "title": "Cesto Belice",
+    "price": 2000,
+    "description":  "Cesto en macrame bicolor 20x20 cm",
+    "code": "Deco3",
+    "thumbnail": "/images/cestomacrame",
+    "stock": 5,
+    
+    },
+   
+
+    ];
+
+    module.exports = Poducts;

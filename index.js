@@ -1,4 +1,4 @@
-const productManager =require ("./class/ProductManager");
+const ProductManager = require ("./class/ProductManager");
 const [espejo, manta, tapiz] = require ("./products");
 
 const products = new productManager ("./database/db.json");
