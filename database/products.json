@@ -1,0 +1,16 @@
+   [
+    {"id": "1","title": "espejo","description": "espejo redondo de yute 60cm","price": 3500,"thumbnails": "http://www.img.espejoyute.com", "code": "esp1","stock": 110,"category":"decoyespejo", "status":"true"},
+    {"id": "2","title": "manta","description":"manta pie de cama de tussor y borlas 50x300  cm", "price": 5500,"thumbnails": "http://www.img.manta.com",  "code": "manta1","stock": 15, "category": "decobed", "status":true},
+    {"id": "3","title": "tapiz","description": " tapiz en macrame crudo 30x50cm","price": 4500,"thumbnails": "http://www.img.tapiz.com",  "code": "tapiz1","stock": 30,"category":"decohome","status": true },
+    {"id":"4", "title": "Espejo Mariam","description": "Espejo tejido en Yute 40cm", "price": 2900, "thumbnails": "http://www.img.esp2.com",  "code": "esp2", "stock": 10,"category":"decoyespejo","status": true},
+    {"id":"5", "title": "Espejo Amalia","description": "Espejo tejido en macramé natural 40cm", "price": 2900,"thumbnails": "http://www.images/espejomacrame.com","code": "Esp3","stock": 5,"category":"decoyespejo","status": true},
+    {"id":"6","title": "Pie de cama","description": " Pie de cama en tusro estampado y borlas en hilo de algodón 100x50 cm", "price": 5000,"thumbnails": "http://www.images/piecama.jpeg.com","code": "pie1","stock": 5,"category":"decobed","status": true},
+    {"id":"7","title": "Almohadas Boho","price": 3000,"description": "Almohadon deco tela de tusro y detalles en lentejuelas 40x20 cm","code": "Habitación","thumbnails": "http://www.images/almohadas.com","stock": 5,"category":"decobed","status": true},
+    {"id":"8","title": "Frasco Marie","price":1900,"description": "Descripción frasco de vidriio, tejido en macrame 30x10 cm","code": "Deco1","thumbnails": "http://www.images/frascomacrame.com", "stock": 5, "category": "decohome","status": true},
+    {"id":"9","title": "Colgante Alice","price":3000,"description": "colgante  de macramé 15x30 cm","code": "Deco2","thumbnails": "http://www.images/colgantemacrame.com","stock": 5, "category":"decohome","status": true},
+    {"id":"10","title": "Cesto Belice","price": 2000,"description":  "Cesto en macrame bicolor 20x20 cm","code": "Deco3", "thumbnails": "http://www.images/cestomacrame.com","stock": 5,"category":"decohome","status": true}
+   ]
+    
+    
+   
+

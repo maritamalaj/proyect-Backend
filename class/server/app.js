@@ -1,8 +1,29 @@
-const express = require ('express');
+import express from  ('express');
+import productRouter from '../../routes/productsRouter';
+import cartRouter from '../../routes/productsRouter';
+
+const app = express ();
+
+app.use(express.json())
+app.use ('/api/products', productRouter)
+app.use ('/api/carts', cartRouter)
+
+app.listen (8080, ()=>{
+    console.log ("Server listening on port 8080...");
+})
+
+
+
+
+
+/*const express = require ('express');
 const res = require('express/lib/response');
 const app = express();
 const ProductManager = require ("../ProductManager");
 const PORT = 8080
+const router = express.Router();
+
+app.use ('/compras', routerCompras);
 
 const productManager = ProductManager("../products/index.json")
 
@@ -24,6 +45,6 @@ app.get("/products/:pid", async (req,res)=>{
 });
 
 app.listen(PORT,()=>{
-    console.log (`Server runing pn port ${PORT}`);
+    console.log (`Server runing en port http://localhost:${PORT}`);
 
-});
+});*/
