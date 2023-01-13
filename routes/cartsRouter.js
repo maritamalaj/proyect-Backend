@@ -1,24 +1,24 @@
 import {Router} from 'express'
 import CartManager from '../class/cartManager';
 
+
 const router = Router();
 
 //Instancia de clases
-const manager = new CartManager ('./cart.json')
+const manager = new CartManager ('../database/cart.json')
 
 //agrego al carrito
-routerCarts.post("/",async (req, res) => {
+router.post('/', async (req, res) => {
   const newCart = await manager.addCart()
-    res.send({newCart})
-});
+  res.send({newCart})
+})
 
 //muestro los datos del carrito
-routerCarts.get("/:cid",async (req, res) => {
-    const cartId = req.params.cid;
-    const selCart = await manager.getCartById(cartId)
-    res.send({selCart})
-  
-});
+router.get('/:cid', async (req, res) => {
+  const cartId = req.params.cid
+  const selCart = await manager.getCartById(cartId)
+  res.send({selCart})
+})
 
 router.get('/', async (req, res) => {
   const carts = await manager.getCarts()

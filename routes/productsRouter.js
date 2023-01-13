@@ -1,12 +1,9 @@
-
-const express = require("express");
-const routerProducts = express.Router();
 import { Router } from 'express';
 import ProductManager from '../class/ProductManager';
 const router = Router()
 
 // class
-const manager = new ProductManager ('.products.json');
+const manager = new ProductManager ('../database/products.json')
 
 
 //list of prod
@@ -56,4 +53,4 @@ router.delete ('/:pid', async (res,req)=>{
     res.send (deleteProduct)
 
 })
-export default router;
+export default router;  
