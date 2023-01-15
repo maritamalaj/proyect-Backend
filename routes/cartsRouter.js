@@ -26,11 +26,11 @@ router.get('/', async (req, res) => {
 })
 
 //agrega un prod al carrito corresp
-routerCarts.post("/:cid/product/:pid",async (req, res) => {
-    const carId = req.params.cid;
+routerCarts.post("/:cid/product/:pid", async (req, res) => {
+    const cartId = req.params.cid;
     const productId = parseInt (req.params.pid);
     await manager. addProductById (cartId,productId,1)
-    const selCart =await manager.getCartById(cartId)
+    const selCart = await manager.getCartById(cartId)
     res.send ({selCart})
  
 });

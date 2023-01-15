@@ -6,7 +6,7 @@ const router = Router()
 const manager = new ProductManager ('../database/products.json')
 
 
-//list of prod
+//endpoint Get - list of products
 router.get ('/products', async (req,res) =>{
     const products = await manager.getProducts()
         let limit = req.query.limit
@@ -38,7 +38,7 @@ router.post ('/', async (req, res)=>{
 
 // change  prod
 router.put('/:pid', async (res,req)=>{
-    const id=parentInt (req.params.pid)
+    const id = parseInt (req.params.pid)
     const {title, description, price, thumbnails, code, stock, category, status} = req.body
     const updateProduct = await manager.updateProductById (id, title, description, price, code, stock, category, status, thumbnails)
     res.send (updateProduct)
