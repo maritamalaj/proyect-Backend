@@ -1,4 +1,4 @@
-import fs from 'fs';
+const fs = require('fs');
 
 class ProductManager{
   constructor (path){
@@ -86,8 +86,7 @@ deleteProductById = async (id) => {
 
 }
 
-  export default ProductManager;
-
+module.exports = ProductManager;
 
 
 

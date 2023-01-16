@@ -1,5 +1,5 @@
-import {Router} from 'express'
-import CartManager from '../class/cartManager';
+const { Router } = require('express');
+const CartManager = require ('../class/CartManager');
 
 
 const router = Router();
@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
 })
 
 //agrega un prod al carrito corresp
-routerCarts.post("/:cid/product/:pid", async (req, res) => {
+router.post("/:cid/product/:pid", async (req, res) => {
     const cartId = req.params.cid;
     const productId = parseInt (req.params.pid);
     await manager. addProductById (cartId,productId,1)
@@ -35,4 +35,4 @@ routerCarts.post("/:cid/product/:pid", async (req, res) => {
  
 });
 
-export default router;
+module.exports = router;
