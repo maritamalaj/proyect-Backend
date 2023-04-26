@@ -1,0 +1,30 @@
+<h1 class="display-5 text-center">Carrito</h1>
+ {{#if error}}
+ <h3 class="text-center">{{error}}</h3>
+ <h6>Try Another Cart</h6>
+ {{else}}
+ <h3 class="text-center">id: {{selCart._id}}</h3>
+ <br>
+ <a class="btn btn-danger" href="#" onClick="history.go(-1)">Volver</a>
+ <br>
+ <br>
+ <table class="table table-dark table-striped table-hover">
+     <tr>
+         <td><strong>Producto</strong></td>
+         <td><strong>Cantidad</strong></td>
+
+     </tr>
+
+     {{#each seltCart.products}}
+         <tr>
+
+
+             <td> <a href="/api/products/products/{{this.product._id}}">{{this.product.title}} {{this.product.description}}</a></td>
+             <td>{{this.quantity}}</td>
+
+
+         </tr>
+     {{/each}}  
+
+ </table>
+ {{/if}}

@@ -1,32 +1,29 @@
-const { Router } = require('express');
-const ProductManager = require ('../class/ProductManager');
+import { Router } from 'express';
+import ProductManager from '../dao/managers/db/productManager.js'
 const router = Router()
 
 // class
-const manager = new ProductManager ('../database/products.json')
+const manager = new ProductManager ();
 
 
 //endpoint Get - list of products
 router.get ('/products', async (req,res) =>{
-    const products = await manager.getProducts()
-        let limit = req.query.limit
-        if (!limit) res.send ({products})
-        else{
-            const prodLimit = [];
-            if (limit >products.length)limit = products.length;
-            for (let index = 0; index< limit; index++){
-                prodLimit.push(products[index]);
-            }
-            res.send({prodLimit})
-        }
-    
+     let page = req.query.page
+     let query = req.query.query
+     let sort = req.query.sort
+
+     const products = await manager.getProducts(limit, page, sort, query)
+     res.send(products)
+
+
+     req.io.emit('updatedProducts', products);
 })
 
 // show product data
 router.get ('/products/p:id', async (req, res) =>{
     const id = req.params.pid
     const product = await manager.getProductById(id)
-    res.send({product})
+    res.send(product)
 })
 
 //add new prod
@@ -38,7 +35,7 @@ router.post ('/', async (req, res)=>{
 
 // change  prod
 router.put('/:pid', async (res,req)=>{
-    const id = parseInt (req.params.pid)
+    const id = req.params.pid
     const {title, description, price, thumbnails, code, stock, category, status} = req.body
     const updateProduct = await manager.updateProductById (id, title, description, price, code, stock, category, status, thumbnails)
     res.send (updateProduct)
@@ -48,9 +45,13 @@ router.put('/:pid', async (res,req)=>{
 
 //delete  prod
 router.delete ('/:pid', async (res,req)=>{ 
-    const id = parseInt (req.params.pid)
-    const deleteProduct = await manager.deleteProductById(id)
-    res.send (deleteProduct)
+    const id = req.params.pid
+    const deleteProduct =  await manager.deleteProductById(id)
+    req.io.emit('updatedProducts', await manager.getProducts());
+    res.send(deleteProduct)
+ 
 
 })
-module.exports = router
+
+
+module.exports = router;

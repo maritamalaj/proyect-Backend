@@ -1,0 +1,25 @@
+<h1 class="display-5 text-center">{{product.title}}</h1>
+<h3 class="text-center">{{product.description}}</h3>
+ <br>
+<a class="btn btn-danger" href="#" onClick="history.go(-1)">Volver</a>
+ <br>
+ <br>
+<div class="cont-gral">   
+
+         <div class="cont-img">
+            <img src="{{product.thumbnails.[0]}}" alt="img_product" width="500"> <br>
+         </div>
+         <div class="cont-data"> 
+             <strong>Precio </strong>${{product.price}}.- <br>
+             <strong>Código</strong> {{product.code}} <br>
+             <strong>Stock</strong> {{product.stock}} <br>
+             <strong>Categoría</strong> {{product.category}} <br>
+             <br>
+             <button class="btn btn-success" type="button" name="addToCart" id="{{product._id}}">Agregar al carrito</button>
+         </div>
+
+
+
+
+</div>
+<script src="/js/product-buttons.js"></script>

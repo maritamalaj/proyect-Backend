@@ -1,0 +1,16 @@
+<h1>Registro de Usuario</h1>
+ <form action="/session/register" method="post">
+     Nombre: <input type="text" name="first_name"> <br>
+     Apellido: <input type="text" name="last_name"> <br>
+     Email: <input type="text" name="email"> <br>
+     Password: <input type="text" name="password"> <br>
+
+     <input type="submit" value="Registrarse">    
+
+ </form>
+ <br>
+ {{#if error}}
+ <i style="color: red;">{{error}}</i>
+ {{/if}}
+ <br>
+ <h5><i>¿Ya tienes usuario? <a href="/views/login">Ingresar</a></i></h5>
