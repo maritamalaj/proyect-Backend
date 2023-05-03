@@ -64,5 +64,14 @@ router.get('/register',(req, res)=>{
      res.render('session-views/register')
 })
 
+router.get('/failregister', (req,res)=>{
+     res.render('session-views/register',{error:'Error al registrarse'})
+})
+
+router.get('/faillogin', (req,res)=>{
+     res.render('session-views/login',{error:'Error al loguearse'})
+})
+ 
+
 export default router;
 

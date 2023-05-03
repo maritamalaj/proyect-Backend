@@ -10,7 +10,8 @@ import mongoose from "mongoose";
          type: String,
          default: 'user'
      },
-     password: String    
+     password: String,
+     loggedBy: String,    
  });
 
  const usersModel = mongoose.model(usersCollection, usersSchema);
