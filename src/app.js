@@ -5,7 +5,7 @@ import {Server} from 'socket.io'; //se crea apartit de un http
 import mongoose from 'mongoose';
 import passport from 'passport';
 import initializePassaport  from '../config/passport.config.js';
-
+import cookieParser from 'cookie-parser';
 import bcrypt from 'bcrypt';
 
 import session from 'express-session';
@@ -30,7 +30,7 @@ const socketServer = new Server (httpServer)//servidor p socket
 app.use(express.json());// para parcear body
 app.use (express.urlencoded({extended: true}));//VER
 app.use (express.static(__dirname+'/public/'))//seteo statico la carpeta public
-
+app.use(cookieParser('mySecret'));
 
 //config plantillas
 app.engine ('handlebars', handlebars.engine()); //Inicial motor
@@ -73,7 +73,7 @@ mongoose.connect(MONGO_URI,{dbName:MONGO_DB_NAME}, async (error)=>{
                  socketServer.emit('logs',messages)
                  })
     })
-    //Seteamos el session express y su configuracion
+    /*Seteamos el session express y su configuracion
     app.use(session({
         store: MongoStore.create({
             mongoUrl: MONGO_URI,
@@ -82,12 +82,13 @@ mongoose.connect(MONGO_URI,{dbName:MONGO_DB_NAME}, async (error)=>{
         secret: 'the_secret',
         resave: true,
         saveUninitialized: true
-    }))
+    }))*/
 
     //inicilizamos passport
     initializePassaport();
     app.use(passport.initialize());
     app.use (passport.session ());
+    /*         app.use(passport.session()); */
 
     //Utilizamos este Middleware genérico para enviar la instancia del servidor de Socket.io a las routes
     app.use((req,res,next)=>{
@@ -100,17 +101,15 @@ mongoose.connect(MONGO_URI,{dbName:MONGO_DB_NAME}, async (error)=>{
     app.use('/session', sessionRouter)
     app.use('/views', viewsRouter)
 
-    app.get('/',(req, res) =>{
-        if(!req.session?.user){
-            res.redirect('views/login')}
-        else{
-            res.redirect('views/products')
+    app.get('/', passport.authenticate('current', {session:false, failureRedirect:'views/login'}), (req, res) =>{
+        res.redirect('views/products')
         }
-    })
- } else {
+    
+    )
+    } else {
     console.log("Can't connect to database");
 
- }
+   }
 })
 
 

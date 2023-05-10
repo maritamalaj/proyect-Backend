@@ -1,11 +1,23 @@
-<input type="submit" value="Ingresar">
+<h1>Login</h1>
+<form action="/session/login" method="post">
+    Email: <input type="text" name="email"> <br>
+    Password: <input type="password" name="password"> <br>
+    <input type="submit" value="Ingresar">
 </form>
 <br>
 <h2>Login con GitHub</h2>
-<button><a href="/session/login-github">Iniciar sesión con GitHub <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" width="30"></a></button>
+<button><a href="/session/login-github">Iniciar sesión con GitHub </a></button>
 <br>
 {{#if error}}
 <i style="color: red;">{{error}}</i>
 {{/if}}
 <br>
 <h5><i>¿No tienes usuario? <a href="/views/register">Regístrate</a></i></h5>
+
+
+
+
+
+
+
+

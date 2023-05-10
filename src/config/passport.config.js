@@ -1,39 +1,60 @@
 import passport from 'passport'
 import local from "passport-local";
 import GitHubStrategy from 'passport-github2';
+import fetch from 'node-fetch';
+import jwt from 'passport-jwt';
 
 import usersModel from '../dao/models/users.models.js';
 import { createHash, isValidPassword } from '../encrypt.js';
+import {PRIVATE_KEY} from "../jwt_utils.js";
 
-// Declaramos nuestra estrategia de register
+const JWTStrategy = jwt.Strategy
+const ExtractJWT = jwt.ExtractJwt
 const LocalStrategy = local.Strategy;
 
+const cookieExtractor = req => {
+    const token = req?.cookies['auth'] || null;
+    console.log('Cookie Extractor', token);
+    return token;
+}
+
+
 const initializePassport= () => {
+
+    passport.use('current',  new JWTStrategy({
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+        secretOrKey: PRIVATE_KEY // DEBE SER LA MISMA que como la del JWT UTILS 
+    },async (jwt_payload, done)=>{
+        try {
+            return done(null, jwt_payload)
+        } catch (error) {
+            return done(error)
+        }
+
+    }))
 
     passport.use('register', new LocalStrategy({
         passReqToCallback: true,
         usernameField: 'email',
     }, async (req, username, password, done)=>{
 
-        const {first_name, last_name, email} = req.body;
+        const {first_name, last_name, email,age} = req.body;
 
-        try {
+        
             const user = await usersModel.findOne({email: username}).lean().exec();
             if (user){
-                return done({passportError:'Usuario ya existente en la base de datos'}, false)
+                return done('Usuario ya existente en la base de datos', false)
             }
             const newUser = await usersModel.create({
                 first_name: first_name,
                 last_name: last_name,
                 email: email,
-                password: createHash(password)
+                password: createHash(password),
+                age:age,
+                cart: await fetch('http://127.0.0.1:8080/api/carts', {method:'POST'}).then(res=>res.json()).then(data=> data._id)
             })
 
             return done(null, newUser)
-
-        } catch (error) {
-            return done({catchErrorPassport:'Error al obtener usuarios', error})
-        }
     }));
 
     passport.use('login', new LocalStrategy({
@@ -66,8 +87,7 @@ passport.use('github', new GitHubStrategy({
     clientSecret: '055bd57cc207cb9d2c260462622c30fe7ad83e52',
     callbackURL: 'http://127.0.0.1:8080/session/githubcallback',
     scope:['user:email']
-}),
-async(accessToken, refreshToken, profile, done)=>{
+},async(accessToken, refreshToken, profile, done)=>{
     console.log(profile);
     try {
         const user = await usersModel.findOne({email:profile.emails[0].value})
@@ -78,14 +98,17 @@ async(accessToken, refreshToken, profile, done)=>{
             last_name:'',
             email: profile.emails[0].value,
             password: '',
-            loggedBy: "GitHub"
+            age:'',
+            loggedBy: "GitHub",
+            cart: await fetch('http://127.0.0.1:8080/api/carts', {method:'POST'}).then(res=>res.json()).then(data=> data._id)
+    
         })
         return done(null, newUser)
     } catch (error) {
         return done('Error to login with GitHub: ',error)
 
     }
-})
+}));
 
 passport.serializeUser((user, done)=>{
     done(null, user._id)
