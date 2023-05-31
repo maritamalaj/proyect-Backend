@@ -2,21 +2,18 @@ import { Router } from "express";
 import passport from "passport";
 const router = Router()
 
-import ProductManager from '../dao/managers/db/productManager.js'
-import CartManager from '../dao/managers/db/cartManager.js';
+import ProductManager from '../managers/product.manager.js';
+import CartManager from '../managers/cart.manager.js';
 import { authToken } from "../jwt_utils.js";
+
 const productManager = ProductManager();
 const cartManager = CartManager();
 
 router.get ('/products',authToken/* SOLO PARA OBTENER INFO */,  async (req,res)=>{
-    let limit = req.query.limit
-    let page = req.query.page
-    let query = req.query.query
-    let sort = req.query.sort
-
-    const products = productManager.getProducts (limit,page, sort, query)
-     res.render('product-pages',{products, user: req.user})
+     let {limit, page, query, sort} = req.query
+     const products = productManager.getProducts (limit,page, sort, query)
      req.io.emit('updatedProducts', products);
+     res.render('product-pages',{products, user: req.user})
 
 })
 

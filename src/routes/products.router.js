@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import ProductManager from '../dao/managers/db/productManager.js'
+import ProductManager from '../managers/product.manager.js';
 const router = Router()
 
 // class
@@ -8,15 +8,10 @@ const manager = new ProductManager ();
 
 //endpoint Get - list of products
 router.get ('/products', async (req,res) =>{
-     let page = req.query.page
-     let query = req.query.query
-     let sort = req.query.sort
-
+     let {limit, page, query, sort} = req.query
      const products = await manager.getProducts(limit, page, sort, query)
-     res.send(products)
-
-
      req.io.emit('updatedProducts', products);
+     res.send(products)
 })
 
 // show product data

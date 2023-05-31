@@ -3,6 +3,10 @@ import handlebars from 'express-handlebars';
 import __dirname from './utils.js';
 import {Server} from 'socket.io'; //se crea apartit de un http
 import mongoose from 'mongoose';
+
+/* import session from 'express-session';
+import MongoStore from 'connect-mongo'; */
+
 import passport from 'passport';
 import initializePassaport  from '../config/passport.config.js';
 import cookieParser from 'cookie-parser';
@@ -11,13 +15,14 @@ import bcrypt from 'bcrypt';
 import session from 'express-session';
 //import FileStore from 'session-file-store';
 import MongoStore from 'connect-mongo';
-import productsRouter from '../routes/productsRouter';
-import cartsRouter from '../routes/productsRouter';
-import chatRouter from '../routes/chat.router.js';
 import __dirname from './utils.js';
-import messagesModel from '../dao/models/messages.model.js';
+import productsRouter from './routes/products.router.js';
+import cartsRouter from './routes/cartsRouter.js';
+import chatRouter from './routes/chat.router.js';
+import messagesModel from './dao/db/models/messages.model.js';
 import sessionRouter from 'express-session';
 import viewsRouter from '../routes/views.router.js'
+import config from './config/config.js';
 
 //import (morgan("dev"));
 
@@ -47,17 +52,18 @@ export const isValidPassword = (user, password) => {
 }
 
 
-const MONGO_URI= 'mongodb+srv://maritamalaj:malaj24@cluster0.xpeivho.mongodb.net/?retryWrites=true&w=majority'
-const MONGO_DB_NAME ='ecommerce'
+
 mongoose.set({stricQuery:true})
-mongoose.connect(MONGO_URI,{dbName:MONGO_DB_NAME}, async (error)=>{
-    if(!error){
-        console.log('DB connected');
-        const httpServer=app.listen(8080,()=>{
-            console.log("server listening on port 8080...")
+mongoose.connect(config.MONGO_URI,{dbName: config.MONGO_DB_NAME}, async (error)=>{
+    if (!error){
+
+        console.log(`DB connected to ${config.MONGO_DB_NAME}`);
+        const httpServer = app.listen(config.PORT, ()=>{
+            console.log(`Server listening on port ${config.PORT}...`);
         });
         const socketServer = new Server (httpServer)
-        let message =[]
+
+        let messages =[]
         socketServer.on ('connection', socket =>{
             console.log(socket.id);
             socket.on ('msg_front', data => console.log(data));
@@ -76,8 +82,8 @@ mongoose.connect(MONGO_URI,{dbName:MONGO_DB_NAME}, async (error)=>{
     /*Seteamos el session express y su configuracion
     app.use(session({
         store: MongoStore.create({
-            mongoUrl: MONGO_URI,
-            dbName: MONGO_DB_NAME
+            mongoUrl: config.MONGO_URI,
+            dbName: congfig.MONGO_DB_NAME
         }),
         secret: 'the_secret',
         resave: true,

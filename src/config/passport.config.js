@@ -4,9 +4,10 @@ import GitHubStrategy from 'passport-github2';
 import fetch from 'node-fetch';
 import jwt from 'passport-jwt';
 
-import usersModel from '../dao/models/users.models.js';
+import usersModel from '../dao/db/models/users.models.js';
 import { createHash, isValidPassword } from '../encrypt.js';
-import {PRIVATE_KEY} from "../jwt_utils.js";
+import {generateToken} from "../jwt_utils.js";
+import config from './config.js';
 
 const JWTStrategy = jwt.Strategy
 const ExtractJWT = jwt.ExtractJwt
@@ -23,7 +24,7 @@ const initializePassport= () => {
 
     passport.use('current',  new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
-        secretOrKey: PRIVATE_KEY // DEBE SER LA MISMA que como la del JWT UTILS 
+        secretOrKey: config.PRIVATE_KEY // DEBE SER LA MISMA que como la del JWT UTILS 
     },async (jwt_payload, done)=>{
         try {
             return done(null, jwt_payload)
