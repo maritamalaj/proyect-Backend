@@ -1,4 +1,4 @@
-import productModel from './models/products.model.js';
+import productsModel from './models/products.model.js';
 
 class ProductMongo{
 
@@ -16,8 +16,8 @@ class ProductMongo{
         return await productsModel.create(newProduct)        
     }
     update= async (id,updatedProduct) => {
-        return await productsModel.updateOne({_id:id},updatedProduct)
-    }   
+        return await productsModel.updateOne({_id:id},{$set: updatedProduct})
+    }    
     delete = async (id) => {
         return await productsModel.deleteOne({_id:id})        
     }

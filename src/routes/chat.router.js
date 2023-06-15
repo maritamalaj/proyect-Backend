@@ -1,12 +1,9 @@
-import mongoose from "mongoose";
+import {Router} from 'express'
+import { get } from '../controllers/chat.controller.js';
+import { passportCall, authorization} from "../passport_custom.js";
 
-const messagesCollection = 'messages';
+const router = Router()
 
-const messagesSchema = new mongoose.Schema({
-    message: String,
-    user: String
-});
+router.get('/', passportCall('current', {session:false, failureRedirect:'/views/login'}),authorization(['USER']), get)
 
-const messagesModel = mongoose.model(messagesCollection, messagesSchema);
-
-export default messagesModel;
+export default router;
