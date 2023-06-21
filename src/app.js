@@ -17,11 +17,11 @@ import bcrypt from 'bcrypt';
 import productsRouter from './routes/products.router.js';
 import cartsRouter from './routes/cartsRouter.js';
 import chatRouter from './routes/chat.router.js';
-import {MessageService} from './repositories/index.js';
+import { MessageService } from './repositories/index.js';
 import sessionRouter from 'express-session';
 import viewsRouter from '../routes/views.router.js'
 import config from './config/config.js';
-
+import errorHandler from './middlewares/errors.js';
 //import (morgan("dev"));
 
 const app = express ();
@@ -105,12 +105,15 @@ mongoose.connect(config.MONGO_URI,{dbName: config.MONGO_DB_NAME}, async (error)=
     app.use((req,res,next)=>{
             req.io = socketServer
             next()
-        })
+    })
+
     app.use('/api/products', productsRouter)
     app.use('/api/carts', cartsRouter)
     app.use('/api/chat', chatRouter)
     app.use('/session', sessionRouter)
     app.use('/views', viewsRouter)
+
+    app.use(errorHandler)
 
     app.get('/',(req, res) =>{
         res.redirect('views/products')

@@ -1,5 +1,9 @@
 import ProductDTO from '../dao/DTO/products.dto.js';
 
+import CustomError from '../services/errors/custom_errors.js';
+import { generateProductErrorInfo, generateCodeErrorInfo } from '../services/errors/info.js';
+import EnumErrors from '../services/errors/enums.js';
+
 class ProductRepository{
     constructor(dao){
         this.dao = dao;
@@ -33,6 +37,14 @@ class ProductRepository{
     } 
    
    async addProduct(title,description,price,code,stock, category, status = true, thumbnails = []){
+        /* if(!title || !description || !price || !code || !stock || !category){
+        CustomError.createError({
+            name: "Product creation error",
+            cause: generateProductErrorInfo({title, description, price, thumbnails, code, stock, category, status}),
+            message: 'Error trying to create product',
+            code: EnumErrors.INVALID_TYPES_ERROR
+        })
+    } */
        const newProduct= this.#newProduct(title,description,price,code,stock, category, status, thumbnails)
        console.log(newProduct);
        const productToInsert = new ProductDTO(newProduct)
@@ -89,11 +101,42 @@ class ProductRepository{
    
     async #errorCheck(newProduct, operation, id){
        const errors=new Array();
-       if (operation == "add") {
-           if(await this.dao.getOther({code:newProduct.code}) ) errors.push(`Code "${newProduct.code}" already exists`)
+       if (operation == "add") { 
+        /* if(await this.dao.getOther({code:newProduct.code}) ) errors.push(`Code "${newProduct.code}" already exists`) */
+        if(await this.dao.getOther({code:newProduct.code}) ) {
+            errors.push(`Code "${newProduct.code}" already exists`)
+            CustomError.createError({
+                name: `Code "${newProduct.code}" already exists`,
+                cause: generateCodeErrorInfo(newProduct),
+                message: 'Error trying to create product',
+                code: EnumErrors.DATABASES_ERROR
+            })
+        }
+    }
+    if (operation == "update") {
+        /* if (newProduct.code) if (await this.dao.getOther({code:newProduct.code, _id: {$ne: id}}) ) errors.push(`Code "${newProduct.code}" already exists`) */
+        if (newProduct.code) if (await this.dao.getOther({code:newProduct.code, _id: {$ne: id}}) ) {
+            errors.push(`Code "${newProduct.code}" already exists`)
+            CustomError.createError({
+                name: `Code "${newProduct.code}" already exists`,
+                cause: generateCodeErrorInfo(newProduct),
+                message: 'Error trying to create product',
+                code: EnumErrors.DATABASES_ERROR
+            })
+        }
+    }
+    /* if (Object.values(newProduct).includes("")) errors.push('There are empty fields.') */
+    if(Object.values(newProduct).includes("")){
+        errors.push('There are empty fields.')
+        CustomError.createError({
+            name: "Product creation error",
+            cause: generateProductErrorInfo(newProduct),
+            message: 'Error trying to create product',
+            code: EnumErrors.INVALID_TYPES_ERROR
+        })
+       
        }
-       if (Object.values(newProduct).includes(undefined)) errors.push('There are empty fields.')
-       if (newProduct.code) if (await this.dao.getOther({code:newProduct.code, _id: {$ne: id}}) ) errors.push(`Code "${newProduct.code}" already exists`)
+       
        return errors
    }
 }

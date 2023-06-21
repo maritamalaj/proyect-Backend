@@ -1,6 +1,10 @@
 import CartDTO from "../dao/DTO/carts.dto.js";
 import { ProductService, UserService, TicketService } from "./index.js";
 
+import CustomError from "../services/errors/custom_errors.js";
+import { generateCartErrorInfo } from "../services/errors/info.js";
+import EnumErrors from "../services/errors/enums.js";
+
 class CartRepository{
 
     constructor(dao){
@@ -34,6 +38,13 @@ class CartRepository{
     }
 
     addProductById = async (cartId,productId,quantity) => {
+        if(cartId.length < 24 || productId.length < 24){
+            CustomError.createError({
+                name: `ID must have 24 characters at least `,
+                cause: generateCartErrorInfo(cartId, productId),
+                message: 'Error trying to add product to cart',
+                code: EnumErrors.INVALID_TYPES_ERROR
+            })}
         const cart = await this.getCartById(cartId) 
         const product = cart.products?.find(product => product.product._id == productId)
         let newCart;

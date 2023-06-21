@@ -20,14 +20,15 @@ export const getCarts = async (req, res) => {
     res.send(carts)
 }
 
-export const addProductById = async (req, res) => {
+export const addProductById = async (req, res, next) => { // Se Agregó el try catch y el next, porque sino , no pasaba el custom error al errohandler y crasheaba la app 
     try {
         const cartId = req.params.cid
         const productId = req.params.pid
         const newCart = await CartService.addProductById(cartId,productId,1)
         res.send({status: 'success', parameters: newCart.newCart, cart: newCart.cart})
     } catch (error) {
-        res.status(401).send({status: 'error', message: error})
+        next(error)
+        /* res.status(401).send({status: 'error', message: error}) */
     }
 }
 
