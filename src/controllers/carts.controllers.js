@@ -86,7 +86,7 @@ export const purchaseCart = async (req, res) => {
         const ticket = await CartService.purchaseCart(cartId)
         res.send(ticket)
     } catch (error) {
-        console.log(error);
+        req.logger.fatal(error);
         res.status(400).send({status: 'error', error: 'Not found'})
     }
 

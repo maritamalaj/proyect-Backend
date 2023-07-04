@@ -15,7 +15,7 @@ const LocalStrategy = local.Strategy;
 
 const cookieExtractor = req => {
     const token = req?.cookies['auth'] ||  req?.headers?.auth || null;
-    console.log('Cookie Extractor', token);
+    req.logger.info('Cookie Extractor'+ token);
     return token;
 }
 
@@ -61,27 +61,24 @@ const initializePassport= () => {
     passport.use('login', new LocalStrategy({
         usernameField: 'email',
     }, async (username, password, done)=>{
-        try {
 
-            const user = await UserService.get (username);
-            if(!user){
-                console.log('NO USER: No hay usuario registrado con ese email');
-                return done(null, false)
+        const user = await UserService.get (username);
+        if(!user){
+            console.log('NO USER: No hay usuario registrado con ese email');
+            return done(null, false)
 
-            }
-            if (!isValidPassword(user, password)){
-                console.log('INCORRECT PASSWORD: Contraseña incorrecta');
-                return done(null, false)
-            }
-
-            const token = generateToken(user)
-            user.token = token
-
-            return done(null, user)
-
-        } catch (error) {
-            return done('PASSPORT_ERROR: ', error)
         }
+        if (!isValidPassword(user, password)){
+            console.log('INCORRECT PASSWORD: Contraseña incorrecta');
+            return done(null, false)
+        }
+
+        const token = generateToken(user)
+        user.token = token
+
+        return done(null, user)
+
+        
     
 }));
 

@@ -22,6 +22,7 @@ import sessionRouter from 'express-session';
 import viewsRouter from '../routes/views.router.js'
 import config from './config/config.js';
 import errorHandler from './middlewares/errors.js';
+import { addLogger } from './logger_utils.js';
 //import (morgan("dev"));
 
 const app = express ();
@@ -42,6 +43,7 @@ app.set ('views engine', ' handlebears');//indicamos al motor inicializado q vam
 
 app.use(express.static(__dirname+'/public'))
 app.use(cookieParser('mySecret'));
+app.use(addLogger);
 
 //bycrypt
 //generamos hash
@@ -114,6 +116,15 @@ mongoose.connect(config.MONGO_URI,{dbName: config.MONGO_DB_NAME}, async (error)=
     app.use('/views', viewsRouter)
 
     app.use(errorHandler)
+
+    app.get('/loggerTest', (req, res)=>{
+        req.logger.fatal("FATAL")
+        req.logger.error("ERROR")
+        req.logger.warning("WARNING")
+        req.logger.info("INFO")
+        req.logger.http("HTTP")
+        req.logger.debug("DEBUG")
+    })
 
     app.get('/',(req, res) =>{
         res.redirect('views/products')

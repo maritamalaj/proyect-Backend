@@ -9,6 +9,7 @@ export const login = async (req, res) => {
     if (!req.user){
         return res.status(401).render('session-views/login',{error: 'User not found or Incorrect password'})
     }
+    req.logger.info('Login Correcto')
     return res.cookie(config.COOKIE_NAME, req.user.token).redirect('/views/products')
 }
 
