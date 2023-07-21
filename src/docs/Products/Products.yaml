@@ -1,0 +1,200 @@
+paths:
+  /api/products/products:
+    get:
+      summary: Obtener todos los productos
+      description: Devuelve todos los productos en la base de datos.
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Los productos fueron devueltos satisfactoriamente
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Product'
+        "500":
+          description: Error del servidor. 
+  /api/products/products/{pid}:
+    get:
+      summary: Obtener un producto por ID
+      tags:
+        - Products
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        decription: ID del producto que se busca
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Product'
+        "404":
+          description: Producto no encontrado
+        "500":
+          description: Error en el servidor
+  /api/products/mockingproducts:
+    get:
+      summary: Obtener una muestra aleatoria de productos creados con FakerJS
+      tags:
+        - Products
+      description: Devuelve una muestra aleatoria de productos creados con FakerJS.
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#components/schemas/Product'
+        "500":
+          description: Error en el servidor
+  /api/products:
+    post:
+      summary: Agregar un producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/ProductInput'
+      responses:
+        "200":
+          description: Producto creado
+          schema:
+            $ref: '#components/schemas/Product'
+        "500":
+          description: Error en el servidor
+        "401":
+          description: No autorizado
+  /api/products/{pid}:
+    put:
+      summary: Actualiza un producto desde su id
+      description: Actualiza el producto que coincide con el ID suministrado en la base de datos.
+      tags:
+        - Products
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        decription: ID del producto a modificar
+        schema:
+          $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/ProductInput'
+      responses:
+        "200":
+          description: Producto actualizado
+          schema:
+            $ref: '#components/schemas/Product'
+        "404":
+          description: Producto no encontrado
+        "500":
+          description: Error en el servidor
+        "401":
+          description: No autorizado
+    delete:
+      summary: Eliminar un producto
+      tags:
+        - Products
+      description: Elimina el producto que coincide con el ID suministrado de la base de datos.
+      parameters:
+        - name: pid
+          in: path
+          description: ID del producto
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Producto eliminado con éxito
+        "401":
+          description: No autorizado
+        "404":
+          description: Producto no encontrado
+        "500":
+          description: Error en el servidor
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+          description: ID auto generado by mongo
+        title:
+          type: String
+          description: Nombre del producto
+        description:
+          type: String
+          description: Descripcion del producto
+        price:
+          type: Number
+          description: Precio del producto
+        thumbnails:
+          type: Array
+          description: Array de direcciones URL de las imagenes.
+          items:
+            type: String
+        code:
+          type: Number
+          description: Código único identificador del producto.
+        stock:
+          type: Number
+          description: Stock disponible del producto.
+        category:
+          type: String
+          description: Categoria del producto
+        status:
+          type: Boolean
+          description: Estado actual del producto
+        owner: 
+          type: String
+          description: Propietario del producto publicado. Corresponde al id de un usuario. 
+          example: admin
+  requestBodies:
+    ProductInput:
+      type: object
+      properties:
+        title:
+          type: String
+          description: Nombre del producto
+        description:
+          type: String
+          description: Descripcion del producto
+        price:
+          type: Number
+          description: Precio del producto
+        thumbnails:
+          type: Array
+          description: Array de direcciones URL de las imagenes.
+          items:
+            type: String
+        code:
+          type: Number
+          description: Código único identificador del producto.
+        stock:
+          type: Number
+          description: Stock disponible del producto.
+        category:
+          type: String
+          description: Categoria del producto
+        status:
+          type: Boolean
+          description: Estado actual del producto
+        owner: 
+          type: String
+          description: Propietario del producto publicado. Corresponde al id de un usuario. 
+          example: admin
+      

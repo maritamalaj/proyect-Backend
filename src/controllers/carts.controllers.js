@@ -24,8 +24,14 @@ export const addProductById = async (req, res, next) => { // Se Agregó el try c
     try {
         const cartId = req.params.cid
         const productId = req.params.pid
-        const newCart = await CartService.addProductById(cartId,productId,1)
-        res.send({status: 'success', parameters: newCart.newCart, cart: newCart.cart})
+        const ownerID = req.user.user.role == "admin" ? "admin" : req.user.user._id
+        const newCart = await CartService.addProductById(cartId,productId,1, ownerID)
+        if (newCart?.error) {
+            res.status(410).send({status: 'error', message: newCart.error})
+        }else{
+
+            res.send({status: 'success', parameters: newCart.newCart, cart: newCart.cart})
+        }
     } catch (error) {
         next(error)
         /* res.status(401).send({status: 'error', message: error}) */

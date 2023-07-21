@@ -1,6 +1,5 @@
 import express from  'express';
 import handlebars from 'express-handlebars';
-import __dirname from './utils.js';
 import {Server} from 'socket.io'; //se crea apartit de un http
 import mongoose from 'mongoose';
 
@@ -10,7 +9,8 @@ import MongoStore from 'connect-mongo'; */
 import passport from 'passport';
 import initializePassaport  from '../config/passport.config.js';
 import cookieParser from 'cookie-parser';
-import bcrypt from 'bcrypt';
+
+import __dirname from './utils.js';
 
 
 //import FileStore from 'session-file-store';
@@ -23,12 +23,14 @@ import viewsRouter from '../routes/views.router.js'
 import config from './config/config.js';
 import errorHandler from './middlewares/errors.js';
 import { addLogger } from './logger_utils.js';
-//import (morgan("dev"));
+
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express';
 
 const app = express ();
 
-const httpServer = app.listen(8080,()=>console.log ("listening en PORT 8080"));// solo el server http
-const socketServer = new Server (httpServer)//servidor p socket 
+//const httpServer = app.listen(8080,()=>console.log ("listening en PORT 8080"));// solo el server http
+//const socketServer = new Server (httpServer)//servidor p socket 
 
 
 app.use(express.json());// para parcear body
@@ -45,14 +47,20 @@ app.use(express.static(__dirname+'/public'))
 app.use(cookieParser('mySecret'));
 app.use(addLogger);
 
-//bycrypt
-//generamos hash
-/*export const createhash = password => bcrypt.hashSync(password,bcrypt.genSaltSync(10))
-//validacion de contraseña
-export const isValidPassword = (user, password) => {
-    console.log(`datos a validar: user-password: ${user.password}, password: ${password}`);
-    return bcrypt.compareSync (password, user.password)
-}*/
+
+const swaggerOptions = {
+    definition:{
+        openapi: '3.0.1',
+        info:{
+            title: "Documentacion de e-Commerce",
+            description: "Este proyecto e-Commerce pertenece al trabajado integrador final del curso Backend"
+        }
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`]
+}
+
+const specs = swaggerJSDoc(swaggerOptions)
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 
 
@@ -64,14 +72,14 @@ mongoose.connect(config.MONGO_URI,{dbName: config.MONGO_DB_NAME}, async (error)=
         const httpServer = app.listen(config.PORT, ()=>{
             console.log(`Server listening on port ${config.PORT}...`);
         });
-        const socketServer = new Server (httpServer)
 
+        const socketServer = new Server (httpServer)
         let messages =[]
+
         socketServer.on ('connection', socket =>{
             console.log(socket.id);
             socket.on ('msg_front', data => console.log(data));
             socket.emit ('msg_back', "conectado al servicio, Bienvenido desde en back")
-
             /* socket.emit('msg_individual', 'Este msj solo lo recibe el socket')
             socket.broadcast.emit('msg_resto','Este msj lo recibe todos menos el socket actual')
             socketServer.emit('msg_all','Mensaje a todos') */

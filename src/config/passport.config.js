@@ -58,6 +58,7 @@ const initializePassport= () => {
             return done(null, newUser)
     }));
 
+
     passport.use('login', new LocalStrategy({
         usernameField: 'email',
     }, async (username, password, done)=>{
@@ -132,6 +133,5 @@ passport.deserializeUser(async(id, done)=>{
 
 };
 
-export default initializePassport;
-
-   
+export default initializePassport;        
+  
