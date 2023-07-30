@@ -3,6 +3,7 @@ import ProductDTO from '../dao/DTO/products.dto.js';
 import CustomError from '../services/errors/custom_errors.js';
 import { generateProductErrorInfo, generateCodeErrorInfo } from '../services/errors/info.js';
 import EnumErrors from '../services/errors/enums.js';
+import { log } from 'winston';
 
 class ProductRepository{
     constructor(dao){
@@ -46,11 +47,11 @@ class ProductRepository{
         })
     } */
        const newProduct= this.#newProduct(title,description,price,code,stock, category, status, thumbnails)
-       console.log(newProduct);
        const productToInsert = new ProductDTO(newProduct)
        const errors = await this.#errorCheck(productToInsert,"add", false)
-       return errors.length == 0 ? (await this.dao.create(productToInsert),productToInsert) : {error: errors}
-       
+       console.log (errors);
+       return errors.length == 0 ? (await this.dao.create(productToInsert)) : {error: errors}
+     
    }
 
    getProductById = async (id) => {
