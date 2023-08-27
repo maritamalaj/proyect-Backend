@@ -8,14 +8,24 @@ import mongoose from "mongoose";
      email: String,
      role: {
          type: String,
-         default: 'premium'
+         default: 'user'
      },
      password: String,
      loggedBy: String,    
      cart: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'carts'
-    }
+    },
+    documents: {
+        type:[
+            {
+                name: String,
+                reference: String
+            }
+            ],
+        default: []
+    },
+    last_connection: Date
  });
 
  const usersModel = mongoose.model(usersCollection, usersSchema);

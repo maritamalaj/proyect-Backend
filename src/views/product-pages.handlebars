@@ -1,6 +1,4 @@
-
-<h1 class="display-5 text-center">Productos disponibles</h1>
-<br>
+<p class="fs-4">Productos disponibles</p>
 <table class="table table-dark table-striped table-hover">
     <tr>
         <td><strong>Producto</strong></td>
@@ -9,17 +7,13 @@
         <td><strong>Código</strong></td>
         <td><strong>Stock</strong></td>
         <td><strong>Categoría</strong></td>
-         <td></td>
-     
-    </tr>
+        <td></td>
+      </tr>
 
-    {{#each payload}}
+    {{#each products.payload}}
         <tr>
-            <td align="center"> <a href="/views/products/{{this._id}}"><img class="rounded" src="{{thumbnails.[0]}}" alt="img_product" width="100"> <br>{{this.title}}</a></td>
-
-
-             <td> <a href="products/{{this._id}}">{{this.title}
-             <td align="center"> <a href="products/{{this._id}}"><img class="rounded" src="{{thumbnails.[0]}}" alt="img_product" width="100"> <br>{{this.title}}</a></td>
+             <td align="center"> <a href="/views/products/{{this._id}}" style="text-decoration: none; color: white"><img class="rounded" src="{{thumbnails.[0]}}" alt="img_product" style="width: 100px;height: 100px; object-fit:cover"> <br>{{this.title}}</a></td>
+           
              <td>{{this.description}}</td>
              <td>{{this.price}}</td>
              <td>{{this.code}}</td>
@@ -37,5 +31,6 @@
 {{#if products.hasNextPage}}
      <a class="btn btn-success" href="{{products.nextLink}}">Página Siguiente</a>
 {{/if}}
-
+<br>
+<br>
 <script src="/js/product-buttons.js"></script>

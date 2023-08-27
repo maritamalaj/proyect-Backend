@@ -18,7 +18,7 @@ describe('Registro, Login and Current', ()=>{
         age: faker.random.numeric(2)
     }
     it('Debe registrar un usuario', async ()=>{
-        const {status} = await requester.post('/session/register').send(mockUser)
+        const {status} = await requester.post('/api/users/register').send(mockUser)
         expect(status).to.be.eql(302)
 
     })
@@ -41,7 +41,7 @@ describe('Registro, Login and Current', ()=>{
 
     })
    it('Enviar cookie para ver el contenido del user', async() =>{
-        const {_body} = await requester.get('/session/current').set('Cookie', [`${cookie.name}=${cookie.value}`])
+        const {_body} = await requester.get('/api/users/current').set('Cookie', [`${cookie.name}=${cookie.value}`])
         expect(_body.email).to.be.eql(mockUser.email)
     })
 })

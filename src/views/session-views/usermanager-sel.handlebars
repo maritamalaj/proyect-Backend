@@ -1,0 +1,27 @@
+<form class="form-group">
+<p class="display-6">Edición de Usuario Externo</p>
+<br>
+    <div class="form-group">
+    Seleccione usuario a administrar: <h3></h3>
+    <select name="users" id="users" class="form-control">
+        {{#each userlist}}
+        <option value="{{this._id}}">{{this.email}}</option>
+        {{/each}}
+    </select>
+    <br>
+    <br>
+    </div>
+    <button id="userSelector" name="userSelector" class="btn btn-primary">Seleccionar</button>
+</form>
+    <br>
+
+{{#if message}}
+<i style="color: blue;">{{message}}</i>
+{{/if}}
+{{#if error}}
+<i style="color: red;">{{error}}</i>
+{{/if}}
+<br>
+
+
+<script src="/js/user-sel-button.js"></script>

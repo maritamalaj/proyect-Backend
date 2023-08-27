@@ -1,6 +1,6 @@
 import {Router} from 'express'
-import { get } from '../controllers/chat.controller.js';
-import { passportCall, authorization} from "../passport_custom.js";
+import { get } from '../controllers/chat.controllers.js';
+import { passportCall, authorization} from "../passaport_custom.js";
 
 const router = Router()
 

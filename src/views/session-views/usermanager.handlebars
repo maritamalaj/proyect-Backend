@@ -1,0 +1,23 @@
+<div class="form-group">
+<p class="display-6">Edición de Usuario Externo</p>
+<br>
+    Nombre: <h3>{{usermanaged.first_name}} {{usermanaged.last_name}}</h3>
+    Email: <input type="text" name="email" value="{{usermanaged.email}}" disabled="disabled" class="form-control"> <br>
+    Rol: {{usermanaged.role}}
+    <br>
+    <br>
+</div>
+<form action="/api/users/premium/{{usermanaged._id}}" method="post">
+    <input type="submit" value="Cambiar Rol" class="btn btn-primary">
+</form>
+    <br>
+<form action="/api/users/delete/{{usermanaged._id}}" method="post">
+    <input type="submit" value="Eliminar Usuario" class="btn btn-danger">
+</form>
+{{#if message}}
+<i style="color: blue;">{{message}}</i>
+{{/if}}
+{{#if error}}
+<i style="color: red;">{{error}}</i>
+{{/if}}
+<br>

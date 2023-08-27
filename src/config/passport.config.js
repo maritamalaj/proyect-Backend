@@ -41,7 +41,7 @@ const initializePassport= () => {
 
         const {first_name, last_name, email,age} = req.body;
 
-            const user = await UserService.get({username}).lean().exec();
+            const user = await UserService.get({username});
             if (user){
                 return done('Usuario ya existente en la base de datos', false)
             }
@@ -51,8 +51,10 @@ const initializePassport= () => {
                 email: email,
                 password: createHash(password),
                 age:age,
-                cart: await fetch('http://127.0.0.1:8080/api/carts', {method:'POST'}).then(res=>res.json()).then(data=> data._id)
-            }
+                cart: await fetch('http://127.0.0.1:8080/api/carts', {method:'POST'}).then(res=>res.json()).then(data=> data._id),
+                documents: [],
+                last_connection: new Date()
+                }
             const newUser= await UserService.create(userTemplate)
 
             return done(null, newUser)
@@ -76,7 +78,8 @@ const initializePassport= () => {
 
         const token = generateToken(user)
         user.token = token
-
+        user.last_connection = new Date()
+        await UserService.update(user._id, {last_connection: user.last_connection})
         return done(null, user)
 
         
@@ -96,6 +99,8 @@ passport.use('github', new GitHubStrategy({
         if (user) {
             const token = generateToken(user)
             user.token = token
+            user.last_connection = new Date()
+            await UserService.update(user._id, {last_connection: user.last_connection})
             return done(null, user);
         }
 
@@ -105,9 +110,9 @@ passport.use('github', new GitHubStrategy({
             email: profile.emails[0].value,
             password: '',
             age:'',
-            loggedBy: "GitHub",
-            cart: await fetch('http://127.0.0.1:8080/api/carts', {method:'POST'}).then(res=>res.json()).then(data=> data._id)
-    
+            cart: await fetch('http://127.0.0.1:8080/api/carts', {method:'POST'}).then(res=>res.json()).then(data=> data._id),
+            documents: [],
+            last_connection: new Date()
         }
 
         const newUser = await UserService.create (userTemplate)

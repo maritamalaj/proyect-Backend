@@ -2,7 +2,7 @@ import { ProductDAO, CartDAO, UserDAO, MessageDAO, TicketDAO } from "../dao/fact
 import ProductRepository from "./product.repository.js";
 import CartRepository from "./cart.repository.js";
 import UserRepository from "./user.repository.js";
-import MessageRepository from "./message.repository.js";
+import MessageRepository from "./message. repository.js";
 import TicketRepository from "./ticket.repository.js";
 
 export const ProductService = new ProductRepository(new ProductDAO());

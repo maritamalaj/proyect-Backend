@@ -1,11 +1,14 @@
-<h1>Registro de Usuario</h1>
- <form action="/session/register" method="post">
-    Nombre: <input type="text" name="first_name" required> <br>
-    Apellido: <input type="text" name="last_name" required> <br>
-    Email: <input type="text" name="email" required> <br>
-    Password: <input type="password" name="password" required> <br>
+  <form action="/api/users/register" method="post" class="form">
+    <div class="form-group">
+    <p class="display-6">Registro de Usuario</p>
+    Nombre: <input type="text" name="first_name" class="form-control" required> <br>
+    Apellido: <input type="text" name="last_name"  class="form-control"required> <br>
+    Edad: <input type="number" name="age" class="form-control" required> <br>
+    Email: <input type="text" name="email"  class="form-control"required> <br>
+    Password: <input type="password" name="password"  class="form-control"required> <br>
+    </div>
+    <input type="submit" value="Registrarse" class="btn btn-primary">    
 
-    <input type="submit" value="Registrarse">    
 
 </form>
 <br>

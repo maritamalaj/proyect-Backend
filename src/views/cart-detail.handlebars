@@ -1,9 +1,9 @@
-<h1 class="display-5 text-center">Carrito</h1>
+<div id="carrito"></div>
  {{#if error}}
  <h3 class="text-center">{{error}}</h3>
  <h6>Try Another Cart</h6>
  {{else}}
- <h3 class="text-center">id: {{selCart._id}}</h3>
+ <h6 class="text-center">id: {{selCart._id}}</h6>
  <br>
  <a class="btn btn-danger" href="#" onClick="history.go(-1)">Volver</a>
  <br>
@@ -12,6 +12,7 @@
      <tr>
          <td><strong>Producto</strong></td>
          <td><strong>Cantidad</strong></td>
+         <td><strong>Eliminar</strong></td>
 
      </tr>
 
@@ -19,12 +20,19 @@
          <tr>
 
 
-             <td> <a href="/api/products/products/{{this.product._id}}">{{this.product.title}} {{this.product.description}}</a></td>
+             <td> <a href="/api/products/products/{{this.product._id}}"style="text-decoration: none; color: white;>{{this.product.title}} {{this.product.description}}</a></td>
              <td>{{this.quantity}}</td>
+             <td><button class="btn btn-danger" type="button" name="removeFromCart" id="{{product._id}}">Eliminar</button></td> 
 
 
          </tr>
      {{/each}}  
 
  </table>
- {{/if}}
+ <div class="d-flex justify-content-end">
+    <button class="btn btn-success" type="button" id="purchaseCart">Finalizar Compra</button>
+</div>
+<br><br><br>
+{{/if}}
+</div>
+<script src="/js/product-buttons.js"></script>

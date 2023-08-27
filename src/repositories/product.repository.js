@@ -3,7 +3,8 @@ import ProductDTO from '../dao/DTO/products.dto.js';
 import CustomError from '../services/errors/custom_errors.js';
 import { generateProductErrorInfo, generateCodeErrorInfo } from '../services/errors/info.js';
 import EnumErrors from '../services/errors/enums.js';
-import { log } from 'winston';
+import { UserService } from './index.js';
+
 
 class ProductRepository{
     constructor(dao){
@@ -68,7 +69,9 @@ class ProductRepository{
     updateProductById = async (id, product) => {
         if (typeof(id) != 'object' && id.length != 24) return (console.log("ID must be 24 characters"),{error: "ID must be 24 characters"}) 
         const errors = await this.#errorCheck(product, "update", id)
-        if (!await this.dao.getOne(id)) errors.push("Product Id not found")
+        const originalProduct = await this.dao.getOne(id)
+        if (!originalProduct) errors.push("Product Id not found")
+        if ((originalProduct.owner != userId) && (userId != "admin")) errors.push("Product Owner not match")
         const updatedProduct = await this.dao.update(id,product)
         const newProduct = await this.getProductById(id)
         return errors.length == 0 ? (updatedProduct, newProduct) : errors
@@ -78,11 +81,21 @@ class ProductRepository{
    deleteProductById = async (id) => {
        if (id.length == 24){
         const productToDelete = await this.dao.getOne(id)
-        if (productToDelete) return (productToDelete, await this.dao.delete(id),{message: "Success"})
-       else return {error: "Product Id not found"} 
-        } else {
-             return {error:'ID must be 24 characters'}
-        }
+        const user = await UserService.getbyId(userId)
+            if (!productToDelete) return {error: "Product Id not found"}
+            console.log(userId);
+            if ((productToDelete.owner != userId) && (userId != "admin")) return {error:"Product Owner not match"}
+            if (user.role == 'premium'){
+                const html = `<h2>Su producto se ha eliminado del listado</h2>
+                <h3>${productToDelete.title}</h3>
+                <img src="${productToDelete.thumbnails[0]}" width="300">`
+                const result = UserService.mail.send(user, "Su producto va a eliminarse", html)
+            }
+            if (productToDelete) return (productToDelete, await this.dao.delete(id),{message: "Success"})
+            else return {error:"No product to delete found"} 
+          } else {
+              return {error:'ID must be 24 characters'}
+          }
     }
    
     #newProduct(title,description,price,code,stock, category, status, thumbnails){
@@ -94,7 +107,8 @@ class ProductRepository{
            code,
            stock,
            category,
-           status
+           status,
+           owner
        }
        return newProduct;
     }

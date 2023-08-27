@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { addCart, addProductById, cleanCart, deleteProductFromCart, getCartById, getCarts, replaceCart, replaceProductQuantity, purchaseCart } from '../controllers/carts.controller.js';
-import { passportCall, authorization } from '../passport_custom.js';
+import { addCart, addProductById, cleanCart, deleteProductFromCart, getCartById, getCarts, replaceCart, replaceProductQuantity, purchaseCart } from '../controllers/carts.controllers.js';
+import { passportCall, authorization } from '../passaport_custom.js';
 
 const router = Router();
 router.post('/', addCart)

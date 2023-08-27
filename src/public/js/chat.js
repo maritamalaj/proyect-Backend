@@ -1,7 +1,7 @@
 let socket = io()
 let user = ''
 let chatbox = document.getElementById('chatbox')
-let getUser = fetch('http://127.0.0.1:8080/session/current'). //OBTENEMOS EL USER MEDIANTE UN FETCH AL CURRENT , QUE LEE LA COOKIE Y NOS DEVUELVE LA INFO DEL USER
+let getUser = fetch('http://127.0.0.1:8080/api/users/current'). //OBTENEMOS EL USER MEDIANTE UN FETCH AL CURRENT , QUE LEE LA COOKIE Y NOS DEVUELVE LA INFO DEL USER
                 then(data=>data.json()).
                 then(response=>{
                     user = response.email
