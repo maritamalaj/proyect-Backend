@@ -3,7 +3,7 @@ import chai from "chai";
 import { faker } from "@faker-js/faker";
 
 const expect = chai.expect
-const requester = supertest('http://127.0.0.1:8080')
+const requester = supertest('http://proyect-backend-production.up.railway.app')
 
 let cookie
 let userId
@@ -23,7 +23,7 @@ describe('Registro, Login and Current', ()=>{
 
     })
     it('Debe loguear un usuario y devolver una cookie', async ()=>{
-        const result = await requester.post('/session/login').send({
+        const result = await requester.post('api/users/login').send({
             email: mockUser.email,
             password: mockUser.password
         })

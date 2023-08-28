@@ -6,7 +6,7 @@ export const getProductsView = async (req, res) => {
     const products = await ProductService.getProducts(limit, page, sort, query)
     const admin = req.user?.user.role == 'admin' ? true : false;
     req.io.emit('updatedProducts', products.payload);
-    res.render('product-pages',{products, user: req.user?.user})
+    res.render('product-pages',{products, user: req.user?.user,admin})
 }
 
 export const getProductByIdView = async (req, res) => {
@@ -24,7 +24,8 @@ export const homeView = async (req, res) => {
     {
         title: "Lista de Productos",
         products: products.payload,
-        user: req.user?.user
+        user: req.user?.user,
+        admin
     })
 }
 

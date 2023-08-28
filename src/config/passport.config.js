@@ -51,7 +51,7 @@ const initializePassport= () => {
                 email: email,
                 password: createHash(password),
                 age:age,
-                cart: await fetch('http://127.0.0.1:8080/api/carts', {method:'POST'}).then(res=>res.json()).then(data=> data._id),
+                cart: await fetch('https://proyect-backend-production.up.railway.app/api/carts', {method:'POST'}).then(res=>res.json()).then(data=> data._id),
                 documents: [],
                 last_connection: new Date()
                 }
@@ -90,7 +90,7 @@ const initializePassport= () => {
 passport.use('github', new GitHubStrategy({
     clientID: 'Iv1.f98ff3af02707906',
     clientSecret: '055bd57cc207cb9d2c260462622c30fe7ad83e52',
-    callbackURL: 'http://127.0.0.1:8080/session/githubcallback',
+    callbackURL: 'http://proyect-backend-production.up.railway.app/api/users/githubcallback',
     scope:['user:email']
 },async(accessToken, refreshToken, profile, done)=>{
     console.log(profile);
@@ -110,7 +110,7 @@ passport.use('github', new GitHubStrategy({
             email: profile.emails[0].value,
             password: '',
             age:'',
-            cart: await fetch('http://127.0.0.1:8080/api/carts', {method:'POST'}).then(res=>res.json()).then(data=> data._id),
+            cart: await fetch('http://proyect-backend-production.up.railway.app/api/carts', {method:'POST'}).then(res=>res.json()).then(data=> data._id),
             documents: [],
             last_connection: new Date()
         }

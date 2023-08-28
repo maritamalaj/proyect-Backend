@@ -84,7 +84,7 @@ class UserRepository{
         }
         const token = generateToken(user)
         let html = `<h1> Recupere su contraseña: </h1>
-        <h2><a href="http://127.0.0.1:8080/api/users/recoverPass/${token}">Link de recuperación</a><h2>
+        <h2><a href="http://proyect-backend-production.up.railway.app/api/users/recoverPass/${token}">Link de recuperación</a><h2>
         `
         
         //send email
